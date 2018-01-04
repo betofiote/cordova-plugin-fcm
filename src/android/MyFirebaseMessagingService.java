@@ -47,14 +47,31 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 Log.d(TAG, "\tKey: " + key + " Value: " + value);
 				data.put(key, value);
         }
-        BadgeHelper.setBadgeCount((String)data.get(BadgeHelper.CONST_BADGE_KEY), getApplicationContext());
 		
-		Log.d(TAG, "\tNotification Data: " + data.toString());
+	Log.d(TAG, "\tNotification Data: " + data.toString());
         FCMPlugin.sendPushPayload( data );
         //sendNotification(remoteMessage.getNotification().getTitle(), remoteMessage.getNotification().getBody(), remoteMessage.getData());
     }
     // [END receive_message]
 
+	@Override
+    public void handleIntent(Intent intent) {
+        Log.d(TAG, "### NOTIFICATION");
+        if(intent.hasExtra("badge"))
+        {
+            try
+            {
+                BadgeHelper.setBadgeCount((String)intent.getStringExtra("badge"), getApplicationContext());
+            }
+            catch (Exception e)
+            {
+                Log.e("failedToParse", "Badge!?");
+            }
+        }
+
+        super.handleIntent(intent);
+    }
+	
     /**
      * Create and show a simple notification containing the received FCM message.
      *
