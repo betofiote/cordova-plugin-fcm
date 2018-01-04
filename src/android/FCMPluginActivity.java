@@ -33,13 +33,16 @@ public class FCMPluginActivity extends Activity {
 			Log.d(TAG, "==> USER TAPPED NOTFICATION");
 			data.put("wasTapped", true);
 			for (String key : getIntent().getExtras().keySet()) {
-                String value = getIntent().getExtras().getString(key);
-                Log.d(TAG, "\tKey: " + key + " Value: " + value);
-				data.put(key, value);
+                try {
+                    String value = getIntent().getExtras().getString(key);
+                    Log.d(TAG, "\tKey: " + key + " Value: " + value);
+                    data.put(key, value);
+                } catch (Exception e) {
+                    Log.e(TAG, "failed get data as string");
+                }
             }
         }
         
-		BadgeHelper.setBadgeCount((String) data.get(BadgeHelper.CONST_BADGE_KEY), getApplicationContext());
 		FCMPlugin.sendPushPayload(data);
 
         finish();
