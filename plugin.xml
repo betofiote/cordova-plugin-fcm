@@ -128,4 +128,7 @@
 	<hook src="scripts/fcm_config_files_process.js" type="after_plugin_add" />
 	<hook src="scripts/fcm_config_files_process.js" type="after_prepare" />
 	
+
+	        <hook src="scripts/gms-gradle-fix.js" type="before_prepare" />
+
 </plugin>
